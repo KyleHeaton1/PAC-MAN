@@ -5,16 +5,29 @@ using UnityEngine;
 public class PlayerCollision : MonoBehaviour
 {
 
+    public int score;
     public GameObject[] enemies;
     public GameObject thePlayer;
-    AIStateManager enemyScript; 
+    AIStateManager enemyScript;
+    List<AIStateManager> list = new List<AIStateManager>();
+
     // Start is called before the first frame update
+
+    void Start()
+    {
+        foreach (GameObject enemy in enemies)
+        {
+            list.Add(enemy.GetComponent<AIStateManager>());
+        }
+    }
 
 
     
 
-    void OnTriggerStay(Collider other) 
+
+    void OnTriggerEnter(Collider other) 
     {
+
         if(other.gameObject.tag == "Enemy")
         {
             enemyScript = other.gameObject.GetComponent<AIStateManager>();
@@ -29,28 +42,31 @@ public class PlayerCollision : MonoBehaviour
         
         }
     
-    
-
-
-        Debug.Log("asuigfybasdhyusgrdfuignd");
         if(other.gameObject.tag == "Pellet")
         {
-            foreach (GameObject enemy in enemies)
+            foreach (AIStateManager manager in list)
             {
-                enemyScript = enemy.GetComponent<AIStateManager>();
-                enemyScript.powerPell = true;
-                enemyScript.playerCollide = false;
+                manager.powerPell = true;
+                manager.playerCollide = false;
             }
 
             Debug.Log("asasdas");
+            Destroy(other.gameObject);
         }
 
 
-        if(other.gameObject.tag == "tictac")
+        if(other.gameObject.tag == "TicTac")
         {
-
+            Destroy(other.gameObject);
+            score += 1;
         }
+
+    }
+
+    void OnTriggerExit(Collider other) {
 
     }
     
 }
+
+

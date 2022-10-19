@@ -95,6 +95,7 @@ public class AIStateManager : MonoBehaviour
             SwitchState(Chase);
             canSwitchToChase = false;
             timer = baseTime;
+            canSwitchToReturn = true;
         }
     }
 
@@ -109,6 +110,7 @@ public class AIStateManager : MonoBehaviour
             SwitchState(Return);
             canSwitchToReturn = false;
             timer = baseTime;
+            canSwitchToChase = true;
         }
     }
     void OnCollisionEnter(Collision collsion)
